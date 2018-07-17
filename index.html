@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		
+		<title>FPS Counter</title>
+		
+		<meta name="description" content="fps counter">
+		<meta name="author" content="cK">
+		
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript" src="scripts/fps-counter.js"></script>
+		<script type="text/javascript">
+			var box,
+				boxWidth,
+				boxPos = 0,
+				boxVelocity = 3,
+				limit = 500;
+			document.addEventListener('DOMContentLoaded', function() { 
+				
+				myFPSCounter = new fpsCounter(); //fps-counter.js
+				box = document.querySelector('#box');
+				boxWidth = document.querySelector('#box').offsetWidth;
+				limit = document.querySelector("#board").clientWidth;
+				
+				requestAnimationFrame(mainLoop);				
+			});
+			function mainLoop(timestamp) {
+				myFPSCounter.update(timestamp); //fps-counter.js
+				update();
+				draw();
+				requestAnimationFrame(mainLoop);
+			}
+			function update() {
+				boxPos += boxVelocity;
+				if (boxPos + boxWidth >= limit || boxPos <= 0) boxVelocity = -boxVelocity;
+			}
+			function draw() {
+				box.style.left = boxPos + 'px';
+			}
+		</script>
+	</head>
+	<body>
+		<div id="floater">
+		</div>
+		<div id="title"><h1>FPS Counter</h1></div>
+		<div id="centered">
+			<div id="main">
+				<div id="board-holder">
+					<div id="board" tabindex="0">
+						<div id="box"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
